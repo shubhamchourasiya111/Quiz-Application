@@ -1,0 +1,92 @@
+{% extends 'Base.html' %} {% load static %} {% block content %}
+<div style="    margin-top: 11px;
+margin-left: 26px;
+font-weight: bold;
+color: red;
+}">
+<span id="displayTime"></span>
+</div>
+<h4 class= 'mt-5'style="text-align:center">{{course_name}} Quiz</h4>
+<div
+  class="quiz-main "
+  style="
+  margin-top:-50px;
+    padding: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  "
+>
+
+  <form method="post" action="" id = "quiz-form">
+    {% csrf_token %}
+    <input type="hidden" name="quiz_id" value="{{quiz_id}}" />
+    {% for question in course_ques %}
+    <p>({{forloop.counter}}). {{ question.question }}</p>
+    <input
+      type="radio"
+      name="answer{{ question.id }}"
+      value="{{ question.option_one }}"
+    />
+    <label for="html">{{ question.option_one }}</label><br />
+    <input
+      type="radio"
+      name="answer{{ question.id }}"
+      value="{{ question.option_two }}"
+    />
+    <label for="html">{{ question.option_two }}</label><br />
+  <hr/>
+    {% endfor %}
+
+    <button id="autoClickButton" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+
+{{count_time|json_script:"c-t"}}
+
+<script>
+  var time = JSON.parse(document.getElementById("c-t").textContent)
+
+
+  console.log(time,"time")
+    // Function to click the button
+    function autoClick() {
+        document.getElementById('autoClickButton').click();
+    }
+    
+    // Set a timeout to trigger the click after a certain time (in milliseconds)
+    var delay = time; // 3 seconds (adjust this as needed)
+    setTimeout(autoClick, delay);
+     // Function to display time
+  // Set the target time for the countdown in minutes (replace with your desired time)
+const targetMinutes = time/(1000*60); // Change this to your desired number of minutes
+
+const targetTime = new Date();
+targetTime.setMinutes(targetTime.getMinutes() + targetMinutes);
+
+function updateTimer() {
+    const currentTime = new Date().getTime();
+    const timeRemaining = targetTime - currentTime;
+
+    if (timeRemaining <= 0) {
+        clearInterval(timerInterval);
+        document.getElementById('displayTime').innerHTML = 'Countdown expired!';
+    } else {
+        const minutes = Math.floor((timeRemaining % (1000 * 60 *60)) / (1000 * 60));
+        const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+        const timerDisplay = `${minutes}m ${seconds}s`;
+        document.getElementById('displayTime').innerHTML = timerDisplay;
+    }
+}
+
+// Update the timer every second
+const timerInterval = setInterval(updateTimer, 1000);
+
+// Initial update
+updateTimer();
+
+</script>
+
+
+{% endblock %}

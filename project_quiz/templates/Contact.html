@@ -1,0 +1,36 @@
+{% extends 'Base.html' %}
+{% load static %}
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Forms - Demo Preview</title>
+<meta content="noindex, nofollow" name="robots">
+<!-- Include CSS File Here-->
+<link href="css/form5.css" rel="stylesheet">
+</head>
+<body>
+<div id="main">
+<div id="first">
+<form action="" method="post">
+  {% csrf_token %}
+<h4>Contact Form</h4>
+<h6>Please fill all entries.</h6>
+<label>Email :</label>
+<input placeholder="Your Email" type="email" name="email" Required>
+<label>Name :</label>
+<input placeholder="Your Name" type="text" name="name" Required > 
+<label>Message :</label>
+<textarea  placeholder="Message" name="message" Required>
+</textarea>
+<input name="dsubmit" type="submit" value="Send" Required> 
+</form>
+</div>
+</div>
+</body>
+</html>
+
+  
+
+{% endblock %}

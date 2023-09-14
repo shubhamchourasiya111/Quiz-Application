@@ -1,0 +1,73 @@
+{% extends 'Base.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+  <div class="row f-div">
+    <div class="col-md-6 ff-div">
+        <h4> Sign-up </h4>
+      <form  method ="post"  id="register-form">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Email address</label>
+          <input type="email" class="form-control" id="register-email" name ="email" aria-describedby="emailHelp" requried>
+          <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">Password</label>
+          <input type="password" name ="password" class="form-control" id="register-password" requried>
+        </div>
+        <span id="error-message" class="text-danger ml-2"></span>
+       
+
+        <button type="submit" id="signup-btn" class="btn btn-primary">Submit</button>
+    </div>
+
+    <p class="text-center text-primary">
+        <a href="{% url 'login' %}">Allready have an account? Sign-in here</a> 
+        
+      </p>
+      
+    
+</div>
+      </form>
+    </div>
+  </div>
+</div>
+<script
+  src="https://code.jquery.com/jquery-3.5.1.js"
+  integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+  crossorigin="anonymous"
+></script>
+<script type="text/javascript">
+    $(document).on("submit", "#register-form", function (e) { //we used form-id
+      e.preventDefault();
+      $("#error-message").empty();
+      var spinner = `<div class="spinner-border text-light" role="status">
+              <span class="visually-hidden">Loading...</span>
+              </div>`;
+      $("#signup-btn").html(spinner);
+      $("#signup-btn").prop('disabled',true);
+      $.ajax({
+        type: "POST",
+        url: '{% url "register" %}',
+        data: {
+          email: $("#register-email").val(),
+          password: $("#register-password").val(),
+          signup_rember: $("#signup-check").prop("checked") ? "on" : "",
+          csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+        },
+        success: function (response) {
+          if (response.success) {
+            window.location.href = "{% url 'home' %}";
+          } else {
+            $("#error-message").text(response.error);
+            $("#signup-btn").text("Signup");
+            $("#signup-btn").removeAttr('disabled')
+            //  console.log("ERROR:-",response.error);
+          }
+        },
+      });
+    });
+  </script>
+{% endblock %}
+

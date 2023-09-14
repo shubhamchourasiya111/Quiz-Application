@@ -1,0 +1,23 @@
+{% extends 'Base.html' %}
+{% load static %}
+{% block content %}
+
+<h4 class= 'mt-5'style="text-align:center">Choose Course</h4>
+<div class = "card-div1">
+{% for course in all_course %}
+<div class="card mt-5 mx-3" style="width: 18rem;">
+    <img src={{course.course_image.url}} class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">{{course_image.course_name}}</h5>
+      <div class ='quizz-div'> 
+      <p class="card-text"> {{course.course_des}}"You have 5 questions, and you have a quiz time limit of 5 minutes.</p>
+        <p> Text Duration:10min</p>
+      <a id= "quiz-btn" href="{% url 'submit_quiz' course.id  %}" class="btn btn-primary">Start Quizz</a>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% include 'footer.html' %}
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'Base.html' %}
+{% load static %}
+{% block content %}
+
+
+<body>
+  <div class="container">
+    <div class="container-left">
+      <div class="title title-left">Your Result</div>
+      <div class="circle">
+        <div class="circle-score">{{score}}</div>
+        <div class="circle-out-of">of {{all_ques}}</div>
+      </div>
+      <div class="container-left-bottom">
+        <div class="container-left-bottom-compliment">Great</div>
+        <div class="container-left-bottom-description">
+          <p>
+            You scored higher than 15% of the people who have taken these
+            tests.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-right-box"></div>
+    <div class="container-right">
+      <div class="title title-right">Summary</div>
+      <div class="stat-box">
+        <div class="stat stat-reaction">
+          <div class="stat-part-left red">
+            <img src="/assets/images/icon-reaction.svg" alt="" />Total Question
+          </div>
+          <div class="stat-part-right">
+            <span class="blue">{{total_ques}}</span> 
+          </div>
+        </div>
+        <div class="stat stat-memory">
+          <div class="stat-part-left yellow">
+            <img src="/assets/images/icon-memory.svg" alt="" />Correct Answer
+          </div>
+          <div class="stat-part-right">
+            <span class="blue">{{correct_answer}}</span> 
+          </div>
+        </div>
+        {% comment %} <div class="stat stat-verbal">
+          <div class="stat-part-left green">
+            <img src="/assets/images/icon-verbal.svg" alt="" />Verbal
+          </div>
+          <div class="stat-part-right">
+            <span class="blue">61</span> / 100
+          </div>
+        </div>
+        <div class="stat stat-visual"> {% endcomment %}
+          {% comment %} <div class="stat-part-left purple">
+            <img src="/assets/images/icon-visual.svg" alt="" />Visual
+          </div> {% endcomment %}
+          {% comment %} <div class="stat-part-right"> {% endcomment %}
+            {% comment %} <span class="blue">72</span> / 100
+          </div> {% endcomment %}
+          {% comment %} </div> {% endcomment %}
+        </div>
+        <button class="btn">Continue</button>
+    </div>
+  </div>
+</body>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends 'Base.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+  <div class="row f-div">
+    <div class="col-md-6 ff-div">
+      <h4> Log-in </h4>
+      <form method ="post" id ="login-form">
+       {% csrf_token %}
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Email address</label>
+          <input type="email" name="email" class="form-control" id="login-email" aria-describedby="emailHelp">
+          <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">Password</label>
+          <input type="password" id="login-password" name="password" class="form-control" >
+        </div>
+        <div>
+        <span id="error-message1" class="text-danger ml-2"></span>
+        </div>
+        <button id='login-btn' type="submit" class="btn btn-primary">Submit</button>
+      </div>
+  </form>
+  <p class="text-center text-primary">
+  <a href="{% url 'register' %}">Don’t have an account? Register here</a> 
+</p>
+   
+</div>
+    </div>
+  </div>
+</div>
+<script
+        src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+        crossorigin="anonymous"
+      ></script>
+<script type="text/javascript">
+  $(document).on("submit", "#login-form", function (e) {
+    e.preventDefault();
+    $("#error-message").empty();
+    var spinner = `<div class="spinner-border text-light" role="status">
+            <span class="visually-hidden">Loading...</span>
+            </div>`;
+    $("#login-btn").html(spinner);
+    $("#login-btn").prop('disabled',true);
+    $.ajax({
+      type: "POST",
+      url: '{% url "login" %}',
+      data: {
+        email: $("#login-email").val(),
+        password: $("#login-password").val(),
+        login_rember: $("#login-check").prop("checked") ? "on" : "",
+        csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+      },
+      success: function (response) {
+        if (response.success) {
+          window.location.href = "{% url 'home' %}";
+        } else {
+          $("#error-message1").text(response.error);
+          $("#login-btn").text("Login");
+          $("#login-btn").removeAttr('disabled')
+          console.log("ERROR:-", response.error);
+        }
+      },
+    });
+  });
+</script>
+{% endblock %}
+
