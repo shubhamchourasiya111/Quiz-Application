@@ -126,3 +126,5 @@ def contact_us(request):
      
 
 
+def test(request):
+     pass
